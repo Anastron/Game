@@ -3,7 +3,10 @@ package Game;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 
@@ -17,12 +20,21 @@ public class Frame extends JFrame
 	
 	private BufferStrategy strat;
 	private Player player;
+	private BufferedImage background;
+	
 	public Frame()
 	{
 		super("Game");
 		
 		addKeyListener(new Keyboard());
 		
+		try
+		{
+			background = ImageIO.read(getClass().getClassLoader().getResourceAsStream("gfx/Hintergrund.jpg"));
+		} catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 		player = new Player(300, 300);
 	}
 	public void makstrat()
@@ -40,8 +52,7 @@ public class Frame extends JFrame
 	}
 	public void draw(Graphics g)
 	{
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, Main.width, Main.height);
+		g.drawImage(background, 0, 0, null);
 		player.draw(g);
 	}
 	public void update(float tslf)

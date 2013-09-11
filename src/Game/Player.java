@@ -2,7 +2,13 @@ package Game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Player
 {
@@ -12,16 +18,42 @@ public class Player
 	private int yspeed;
 	private int width = 30;
 	private int height = 30;
+	private BufferedImage look;
 	
 	public Player(int xpos, int ypos)
 	{
 		this.xpos = xpos;
 		this.ypos = ypos;
+		try
+		{
+			look = ImageIO.read(getClass().getClassLoader().getResourceAsStream("gfx/Spieler.png"));
+		} catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
+	
+	private int degrees = 0;
+	
 	public void draw(Graphics g)
 	{
-		g.setColor(Color.BLUE);
-		g.fillRect((int)xpos, (int)ypos, width, height);
+		degrees++;
+		if(degrees == 360)
+		{
+			degrees = 0;
+		}
+			
+		g.drawImage(rotate(degrees), (int) xpos, (int) ypos, null);
+	}
+	public BufferedImage rotate(double degreese)
+	{
+		AffineTransform at = AffineTransform.getRotateInstance(Math.toRadians(degreese), look.getWidth()/2, look.getHeight()/2);
+		BufferedImage rotatedImage = new BufferedImage(look.getWidth(), look.getHeight(), look.getType());
+		Graphics2D g = (Graphics2D) rotatedImage.getGraphics();
+		g.setTransform(at);
+		g.drawImage(look, 0, 0, null);
+		return rotatedImage;
+		
 	}
 	public void update(float tslf)
 	{

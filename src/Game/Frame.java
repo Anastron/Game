@@ -1,11 +1,10 @@
 package Game;
 
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 
@@ -20,6 +19,7 @@ public class Frame extends JFrame
 	private BufferStrategy strat;
 	private Player player;
 	private BufferedImage background;
+	private BufferedImage cursor;
 	
 	public Frame()
 	{
@@ -29,13 +29,11 @@ public class Frame extends JFrame
 		addKeyListener(kb);
 		addMouseMotionListener(kb);
 		
-		try
-		{
-			background = ImageIO.read(getClass().getClassLoader().getResourceAsStream("gfx/Hintergrund.jpg"));
-		} catch(IOException e)
-		{
-			e.printStackTrace();
-		}
+		background = Imageloader.loadImage("Hintergrund");
+		cursor = Imageloader.loadImage("Cursor");
+		
+		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(), "INVISIBLE"));
+		
 		player = new Player(300, 300);
 	}
 	public void makstrat()
@@ -55,6 +53,7 @@ public class Frame extends JFrame
 	{
 		g.drawImage(background, 0, 0, null);
 		player.draw(g);
+		g.drawImage(cursor, Keyboard.getMouseX(), Keyboard.getMouseY(), null);
 	}
 	public void update(float tslf)
 	{

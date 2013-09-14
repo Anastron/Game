@@ -5,9 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 public class Player
 {
@@ -25,13 +22,9 @@ public class Player
 	{
 		this.xpos = xpos;
 		this.ypos = ypos;
-		try
-		{
-			look = ImageIO.read(getClass().getClassLoader().getResourceAsStream("gfx/Spieler.png"));
-		} catch(IOException e)
-		{
-			e.printStackTrace();
-		}
+		
+		look = Imageloader.loadImage("Spieler");
+
 	}
 	
 
@@ -52,8 +45,8 @@ public class Player
 	}
 	public double getRotation()
 	{
-		int absx = (int) (Keyboard.getMouseX() - (xpos + 15));
-		int absy = (int) (Keyboard.getMouseY() - (ypos + 15));
+		int absx = (int) (Keyboard.getMouseX() + 8 - (xpos + 15));
+		int absy = (int) (Keyboard.getMouseY() + 8 - (ypos + 15));
 		return Math.atan2(absy, absx);
 		
 	}
@@ -66,24 +59,25 @@ public class Player
 		
 		if(Keyboard.isKeyPressed(KeyEvent.VK_W))
 		{
-			xspeed = (float) Math.cos(getRadianDegrees()) * 200;
-			yspeed = (float) Math.sin(getRadianDegrees()) * 200;
+			xspeed = (float) Math.cos(getRadianDegrees()) * PLAYERSPEED;
+			yspeed = (float) Math.sin(getRadianDegrees()) * PLAYERSPEED;
 		}
 		if(Keyboard.isKeyPressed(KeyEvent.VK_S))
 		{
-			xspeed = (float) Math.cos(getRadianDegrees() + Math.PI) * 200;
-			yspeed = (float) Math.sin(getRadianDegrees() + Math.PI) * 200;
+			xspeed = (float) Math.cos(getRadianDegrees() + Math.PI) * PLAYERSPEED;
+			yspeed = (float) Math.sin(getRadianDegrees() + Math.PI) * PLAYERSPEED;
 		}
 		if(Keyboard.isKeyPressed(KeyEvent.VK_D))
 		{
-			xspeed = (float) Math.cos(getRadianDegrees() + Math.PI/2) * 200;
-			yspeed = (float) Math.sin(getRadianDegrees() + Math.PI/2) * 200;
+			xspeed = (float) Math.cos(getRadianDegrees() + Math.PI/2) * PLAYERSPEED;
+			yspeed = (float) Math.sin(getRadianDegrees() + Math.PI/2) * PLAYERSPEED;
 		}
 		if(Keyboard.isKeyPressed(KeyEvent.VK_A))
 		{
-			xspeed = (float) Math.cos(getRadianDegrees() - Math.PI/2) * 200;
-			yspeed = (float) Math.sin(getRadianDegrees() - Math.PI/2) * 200;
+			xspeed = (float) Math.cos(getRadianDegrees() - Math.PI/2) * PLAYERSPEED;
+			yspeed = (float) Math.sin(getRadianDegrees() - Math.PI/2) * PLAYERSPEED;
 		}
+
 
 		xpos += xspeed * tslf;
 		ypos += yspeed * tslf;

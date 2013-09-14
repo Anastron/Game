@@ -45,9 +45,10 @@ public class Keyboard implements KeyListener, MouseMotionListener
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mouseDragged(MouseEvent e)
+	{
+		mousex = e.getX();
+		mousey = e.getY();
 	}
 
 	@Override

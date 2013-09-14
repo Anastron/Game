@@ -50,19 +50,32 @@ public class Player
 		return Math.atan2(absy, absx);
 		
 	}
+	public boolean inMouse()
+	{
+		float absx = (Keyboard.getMouseX() + 8) -(xpos + 15);
+		float absy = (Keyboard.getMouseY() + 8) -(ypos + 15);
+		float abs = absx * absx + absy * absy;
+		if(abs <= 15 * 15)
+		{
+			return true;
+		}
+		return false;
+	}
 	public void update(float tslf)
 	{
 		xspeed = 0;
 		yspeed = 0;
 		
+		boolean inmouse = inMouse();
+		
 		degrees = (int) Math.toDegrees((getRotation()));
 		
-		if(Keyboard.isKeyPressed(KeyEvent.VK_W))
+		if(Keyboard.isKeyPressed(KeyEvent.VK_W) && !inmouse)
 		{
 			xspeed = (float) Math.cos(getRadianDegrees()) * PLAYERSPEED;
 			yspeed = (float) Math.sin(getRadianDegrees()) * PLAYERSPEED;
 		}
-		if(Keyboard.isKeyPressed(KeyEvent.VK_S))
+		if(Keyboard.isKeyPressed(KeyEvent.VK_S) && !inmouse)
 		{
 			xspeed = (float) Math.cos(getRadianDegrees() + Math.PI) * PLAYERSPEED;
 			yspeed = (float) Math.sin(getRadianDegrees() + Math.PI) * PLAYERSPEED;

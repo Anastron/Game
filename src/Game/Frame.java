@@ -1,6 +1,5 @@
 package Game;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -26,7 +25,9 @@ public class Frame extends JFrame
 	{
 		super("Game");
 		
-		addKeyListener(new Keyboard());
+		Keyboard kb = new Keyboard();
+		addKeyListener(kb);
+		addMouseMotionListener(kb);
 		
 		try
 		{

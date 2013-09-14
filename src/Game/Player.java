@@ -1,6 +1,5 @@
 package Game;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -14,11 +13,13 @@ public class Player
 {
 	private float xpos;
 	private float ypos;
-	private int xspeed;
-	private int yspeed;
+	private float xspeed;
+	private float yspeed;
 	private int width = 30;
 	private int height = 30;
+	private double degrees = 0;
 	private BufferedImage look;
+	private final int PLAYERSPEED = 200;
 	
 	public Player(int xpos, int ypos)
 	{
@@ -33,17 +34,11 @@ public class Player
 		}
 	}
 	
-	private int degrees = 0;
+
 	
 	public void draw(Graphics g)
 	{
-		degrees++;
-		if(degrees == 360)
-		{
-			degrees = 0;
-		}
-			
-		g.drawImage(rotate(degrees), (int) xpos, (int) ypos, null);
+		g.drawImage(rotate(degrees + 90), (int) xpos, (int) ypos, null);
 	}
 	public BufferedImage rotate(double degreese)
 	{
@@ -55,15 +50,40 @@ public class Player
 		return rotatedImage;
 		
 	}
+	public double getRotation()
+	{
+		int absx = (int) (Keyboard.getMouseX() - (xpos + 15));
+		int absy = (int) (Keyboard.getMouseY() - (ypos + 15));
+		return Math.atan2(absy, absx);
+		
+	}
 	public void update(float tslf)
 	{
 		xspeed = 0;
 		yspeed = 0;
 		
-		if(Keyboard.isKeyPressed(KeyEvent.VK_W)) yspeed = -100;
-		if(Keyboard.isKeyPressed(KeyEvent.VK_S)) yspeed = 100;
-		if(Keyboard.isKeyPressed(KeyEvent.VK_D)) xspeed = 100;
-		if(Keyboard.isKeyPressed(KeyEvent.VK_A)) xspeed = -100;
+		degrees = (int) Math.toDegrees((getRotation()));
+		
+		if(Keyboard.isKeyPressed(KeyEvent.VK_W))
+		{
+			xspeed = (float) Math.cos(getRadianDegrees()) * 200;
+			yspeed = (float) Math.sin(getRadianDegrees()) * 200;
+		}
+		if(Keyboard.isKeyPressed(KeyEvent.VK_S))
+		{
+			xspeed = (float) Math.cos(getRadianDegrees() + Math.PI) * 200;
+			yspeed = (float) Math.sin(getRadianDegrees() + Math.PI) * 200;
+		}
+		if(Keyboard.isKeyPressed(KeyEvent.VK_D))
+		{
+			xspeed = (float) Math.cos(getRadianDegrees() + Math.PI/2) * 200;
+			yspeed = (float) Math.sin(getRadianDegrees() + Math.PI/2) * 200;
+		}
+		if(Keyboard.isKeyPressed(KeyEvent.VK_A))
+		{
+			xspeed = (float) Math.cos(getRadianDegrees() - Math.PI/2) * 200;
+			yspeed = (float) Math.sin(getRadianDegrees() - Math.PI/2) * 200;
+		}
 
 		xpos += xspeed * tslf;
 		ypos += yspeed * tslf;
@@ -73,4 +93,9 @@ public class Player
 		if(ypos < 0) ypos = 0;
 		if(ypos + height > Main.height) ypos = 600 - height;
 	}
+	public double getRadianDegrees()
+	{
+		return Math.toRadians(degrees);
+	}
+	
 }

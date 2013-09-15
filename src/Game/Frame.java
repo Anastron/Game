@@ -17,9 +17,8 @@ public class Frame extends JFrame
 	private static final long serialVersionUID = 1L;
 	
 	private BufferStrategy strat;
-	private Player player;
-	private BufferedImage background;
 	private BufferedImage cursor;
+	private World world;
 	
 	public Frame()
 	{
@@ -29,12 +28,11 @@ public class Frame extends JFrame
 		addKeyListener(kb);
 		addMouseMotionListener(kb);
 		
-		background = Imageloader.loadImage("Hintergrund");
 		cursor = Imageloader.loadImage("Cursor");
 		
 		setCursor(Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB), new Point(), "INVISIBLE"));
 		
-		player = new Player(300, 300);
+		world = new World();
 	}
 	public void makstrat()
 	{
@@ -51,12 +49,11 @@ public class Frame extends JFrame
 	}
 	public void draw(Graphics g)
 	{
-		g.drawImage(background, 0, 0, null);
-		player.draw(g);
+		world.draw(g);
 		g.drawImage(cursor, Keyboard.getMouseX(), Keyboard.getMouseY(), null);
 	}
 	public void update(float tslf)
 	{
-		player.update(tslf);
+		world.update(tslf);
 	}
 }

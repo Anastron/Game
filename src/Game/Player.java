@@ -61,7 +61,7 @@ public class Player
 		}
 		return false;
 	}
-	public void update(float tslf)
+	public void update(float tslf, boolean playermove)
 	{
 		xspeed = 0;
 		yspeed = 0;
@@ -91,14 +91,24 @@ public class Player
 			yspeed = (float) Math.sin(getRadianDegrees() - Math.PI/2) * PLAYERSPEED;
 		}
 
-
-		xpos += xspeed * tslf;
-		ypos += yspeed * tslf;
+		if(playermove)
+		{
+			xpos += xspeed * tslf;
+			ypos += yspeed * tslf;
+		}
 		
 		if(xpos < 0) xpos = 0;
 		if(xpos + width > Main.width) xpos = 800 - width;
 		if(ypos < 0) ypos = 0;
 		if(ypos + height > Main.height) ypos = 600 - height;
+	}
+	public float getXSpeed()
+	{
+		return xspeed;
+	}
+	public float getYSpeed()
+	{
+		return yspeed;
 	}
 	public double getRadianDegrees()
 	{

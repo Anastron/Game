@@ -61,14 +61,13 @@ public class Player
 		}
 		return false;
 	}
-	public void update(float tslf, boolean playermove)
+	public void update(float tslf, boolean playermovex, boolean playermovey)
 	{
 		xspeed = 0;
 		yspeed = 0;
 		
 		boolean inmouse = inMouse();
 		
-		degrees = (int) Math.toDegrees((getRotation()));
 		
 		if(Keyboard.isKeyPressed(KeyEvent.VK_W) && !inmouse)
 		{
@@ -91,17 +90,41 @@ public class Player
 			yspeed = (float) Math.sin(getRadianDegrees() - Math.PI/2) * PLAYERSPEED;
 		}
 
-		if(playermove)
-		{
-			xpos += xspeed * tslf;
-			ypos += yspeed * tslf;
-		}
+		if(playermovex) xpos += xspeed * tslf;
+		if(playermovey) ypos += yspeed * tslf;
+		
+		degrees = (int) Math.toDegrees((getRotation()));
 		
 		if(xpos < 0) xpos = 0;
 		if(xpos + width > Main.width) xpos = 800 - width;
 		if(ypos < 0) ypos = 0;
 		if(ypos + height > Main.height) ypos = 600 - height;
 	}
+	
+	public float getXpos() {
+		return xpos;
+	}
+
+
+
+	public void setXpos(float xpos) {
+		this.xpos = xpos;
+	}
+
+
+
+	public float getYpos() {
+		return ypos;
+	}
+
+
+
+	public void setYpos(float ypos) {
+		this.ypos = ypos;
+	}
+
+
+
 	public float getXSpeed()
 	{
 		return xspeed;

@@ -10,13 +10,14 @@ public class Player
 {
 	private float xpos;
 	private float ypos;
+	private float oldxpos;
+	private float oldypos;
 	private float xspeed;
 	private float yspeed;
-	private int width = 30;
-	private int height = 30;
 	private double degrees = 0;
 	private BufferedImage look;
 	private final int PLAYERSPEED = 200;
+	static int size;
 	
 	public Player(int xpos, int ypos)
 	{
@@ -24,7 +25,7 @@ public class Player
 		this.ypos = ypos;
 		
 		look = Imageloader.loadImage("Spieler");
-
+		size = look.getHeight();
 	}
 	
 
@@ -45,17 +46,17 @@ public class Player
 	}
 	public double getRotation()
 	{
-		int absx = (int) (Keyboard.getMouseX() + 8 - (xpos + 15));
-		int absy = (int) (Keyboard.getMouseY() + 8 - (ypos + 15));
+		int absx = (int) (Keyboard.getMouseX() + 8 - (xpos + size/2));
+		int absy = (int) (Keyboard.getMouseY() + 8 - (ypos + size/2));
 		return Math.atan2(absy, absx);
 		
 	}
 	public boolean inMouse()
 	{
-		float absx = (Keyboard.getMouseX() + 8) -(xpos + 15);
-		float absy = (Keyboard.getMouseY() + 8) -(ypos + 15);
+		float absx = (Keyboard.getMouseX() + 8) -(xpos + size/2);
+		float absy = (Keyboard.getMouseY() + 8) -(ypos + size/2);
 		float abs = absx * absx + absy * absy;
-		if(abs <= 15 * 15)
+		if(abs <= size/2 * size/2)
 		{
 			return true;
 		}
@@ -90,15 +91,24 @@ public class Player
 			yspeed = (float) Math.sin(getRadianDegrees() - Math.PI/2) * PLAYERSPEED;
 		}
 
+		oldxpos = xpos;
+		oldypos = ypos;
+		
 		if(playermovex) xpos += xspeed * tslf;
 		if(playermovey) ypos += yspeed * tslf;
 		
 		degrees = (int) Math.toDegrees((getRotation()));
 		
 		if(xpos < 0) xpos = 0;
-		if(xpos + width > Main.width) xpos = 800 - width;
+		if(xpos + size > Main.width) xpos = 800 - size;
 		if(ypos < 0) ypos = 0;
-		if(ypos + height > Main.height) ypos = 600 - height;
+		if(ypos + size > Main.height) ypos = 600 - size;
+	}
+	
+	public void setToOld()
+	{
+		xpos = oldxpos;
+		ypos = oldypos;
 	}
 	
 	public float getXpos() {

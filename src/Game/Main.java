@@ -17,6 +17,8 @@ public class Main
 		frame.makstrat();
 		
 		long lastFrame = System.currentTimeMillis();
+		
+		
 		while(true)
 		{
 			long thisFrame = System.currentTimeMillis();

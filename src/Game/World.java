@@ -8,7 +8,8 @@ public class World
 {
 	private float worldx;
 	private float worldy;
-
+	private float oldworldx;
+	private float oldworldy;
 	private Player player;
 	private Tile[][] tiles;
 	static int level = 0;
@@ -16,7 +17,7 @@ public class World
 	static int height;
 	public World()
 	{
-		player = new Player(Main.width/2 - 15, Main.height/2  - 15);
+		player = new Player(Main.width/2 - 150, Main.height/2 - 150);
 		
 		loadNextLevel();
 	}
@@ -43,6 +44,8 @@ public class World
 	}
 	public void update(float tslf)
 	{
+		oldworldx = worldx;
+		oldworldy = worldy;
 		if(player.getXpos() == Main.width/2 - 15)worldx += player.getXSpeed() * tslf;
 		if(player.getYpos() == Main.height/2 -15)worldy += player.getYSpeed() * tslf;
 		
@@ -71,14 +74,38 @@ public class World
 			onwally = true;
 		}
 		
-		if((player.getXpos() < Main.width/2 - 15 && worldx == 0) || (player.getXpos() > Main.width/2 - 15 && worldx == mapwidth - Main.width)) onwallx = true;
-		else player.setXpos(Main.width/2 -15);
+		if((player.getXpos() < Main.width/2 - Player.size/2 && worldx == 0) || (player.getXpos() > Main.width/2 - Player.size/2 && worldx == mapwidth - Main.width)) onwallx = true;
+		else player.setXpos(Main.width/2 -Player.size/2);
 		
-		if((player.getYpos() < Main.height/2 - 15 && worldy == 0)|| (player.getYpos() > Main.height/2 - 15 && worldy == mapheight - Main.height)) onwally = true;
-		else player.setYpos(Main.height/2 -15);
+		if((player.getYpos() < Main.height/2 - Player.size/2 && worldy == 0)|| (player.getYpos() > Main.height/2 - Player.size/2 && worldy == mapheight - Main.height)) onwally = true;
+		else player.setYpos(Main.height/2 - Player.size/2);
 		
 		
 		player.update(tslf, onwallx, onwally);
+		
+		for(int x = 0; x < 2; x++)
+		{
+			for(int y = 0; y < 2; y++)
+			{
+				int playerposx = (int) ((worldx + player.getXpos() + x * Player.size) / Texture.tilesize);
+				int playerposy = (int) ((worldy + player.getYpos() + y * Player.size) / Texture.tilesize);
+				if(tiles[playerposx][playerposy].getLookID() == 3)
+				{
+					player.setToOld();
+					setToOld();
+				}
+				if(tiles[playerposx][playerposy].getLookID() == 1)
+				{
+					player.setToOld();
+					setToOld();
+				}
+			}
+		}
+	}
+	public void setToOld()
+	{
+		worldx = oldworldx;
+		worldy = oldworldy;
 	}
 	public void draw(Graphics g)
 	{	

@@ -83,18 +83,37 @@ public class World
 		
 		player.update(tslf, onwallx, onwally);
 		
+//		for(int x = 0; x < 2; x++)
+//		{
+//			for(int y = 0; y < 2; y++)
+//			{
+//				int playerposx = (int) ((worldx + player.getXpos() + x * Player.size) / Texture.tilesize);
+//				int playerposy = (int) ((worldy + player.getYpos() + y * Player.size) / Texture.tilesize);
+//				if(tiles[playerposx][playerposy].getLookID() == 3)
+//				{
+//					player.setToOld();
+//					setToOld();
+//				}
+//				if(tiles[playerposx][playerposy].getLookID() == 1)
+//				{
+//					player.setToOld();
+//					setToOld();
+//				}
+//			}
+//		}
+		
 		for(int x = 0; x < 2; x++)
 		{
 			for(int y = 0; y < 2; y++)
 			{
 				int playerposx = (int) ((worldx + player.getXpos() + x * Player.size) / Texture.tilesize);
 				int playerposy = (int) ((worldy + player.getYpos() + y * Player.size) / Texture.tilesize);
-				if(tiles[playerposx][playerposy].getLookID() == 3)
+				if(tiles[playerposx][playerposy].getLookID() == 3 && Collision.circleToRect(player.getXpos() + worldx + Player.size/2, player.getYpos() + worldy + Player.size/2, Player.size/2, playerposx * Texture.tilesize, playerposy * Texture.tilesize, Texture.tilesize, Texture.tilesize))
 				{
 					player.setToOld();
 					setToOld();
 				}
-				if(tiles[playerposx][playerposy].getLookID() == 1)
+				if(tiles[playerposx][playerposy].getLookID() == 1 && Collision.circleToRect(player.getXpos() + worldx + Player.size/2, player.getYpos() + worldy + Player.size/2, Player.size/2, playerposx * Texture.tilesize, playerposy * Texture.tilesize, Texture.tilesize, Texture.tilesize))
 				{
 					player.setToOld();
 					setToOld();

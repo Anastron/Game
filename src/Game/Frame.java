@@ -27,6 +27,7 @@ public class Frame extends JFrame
 		Keyboard kb = new Keyboard();
 		addKeyListener(kb);
 		addMouseMotionListener(kb);
+		addMouseListener(kb);
 		
 		cursor = Imageloader.loadImage("Cursor");
 		

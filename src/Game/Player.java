@@ -6,14 +6,10 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
-public class Player
+public class Player extends MovingObject
 {
-	private float xpos;
-	private float ypos;
 	private float oldxpos;
 	private float oldypos;
-	private float xspeed;
-	private float yspeed;
 	private double degrees = 0;
 	private BufferedImage look;
 	private final int PLAYERSPEED = 200;
@@ -21,6 +17,7 @@ public class Player
 	
 	public Player(int xpos, int ypos)
 	{
+		super(xpos, ypos, 0, 0);
 		this.xpos = xpos;
 		this.ypos = ypos;
 		

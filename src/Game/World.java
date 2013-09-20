@@ -3,6 +3,7 @@ package Game;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.LinkedList;
 
 public class World 
 {
@@ -12,6 +13,7 @@ public class World
 	private float oldworldy;
 	private Player player;
 	private Tile[][] tiles;
+	private LinkedList<Bullet> bullets;
 	static int level = 0;
 	static int width;
 	static int height;
@@ -20,6 +22,8 @@ public class World
 		player = new Player(Main.width/2 - 150, Main.height/2 - 150);
 		
 		loadNextLevel();
+		
+		bullets = new LinkedList<Bullet>();
 	}
 	public void loadNextLevel()
 	{
@@ -83,6 +87,15 @@ public class World
 		
 		player.update(tslf, onwallx, onwally);
 		
+		if(Keyboard.getButton() == 1)
+		{
+			bullets.add(new Bullet(100, 100, Bullet.MAXSPEED, 0));
+		}
+		for(int i = 0; i < bullets.size(); i++)
+		{
+			if(bullets.get(i).update(tslf)) bullets.remove(i);
+		}
+		
 //		for(int x = 0; x < 2; x++)
 //		{
 //			for(int y = 0; y < 2; y++)
@@ -140,8 +153,11 @@ public class World
 			{
 				tiles[x][y].draw(g, (int) worldx * -1, (int) worldy * -1);
 			}
-			
-			player.draw(g);
+		}
+		for(int i = 0; i < bullets.size(); i++)
+		{
+			bullets.get(i).draw(g, (int) worldx, (int) worldy);
 		}	
+		player.draw(g);
 	}
 }

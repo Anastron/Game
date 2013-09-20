@@ -29,4 +29,17 @@ public class Collision
 		if(cx >= rectx && cx <= rectx + width && cy >= recty && cy <= recty + height) return true;
 		return false;
 	}
+	public static boolean circleToCircle(float c1x, float c1y, int c1radius, float c2x, float c2y, int c2radius)
+	{
+		float absx = c1x - c2x;
+		float absy = c1y - c2y;
+		float abs = absx * absx + absy * absy;
+		if(abs <= (c1radius + c2radius) * (c1radius + c2radius)) return true;
+		return false;
+	}
+	public static boolean recToRect(float rect1x, float rect1y, int width1, int height1, float rect2x, float rect2y, int width2, int height2)
+	{
+		if(rect1x <= rect2x + width2 && rect1x + width1 >= rect2x && rect1y <= rect2y + height2 && rect1y + height1 >= rect2y) return true;
+		return false;
+	}
 }

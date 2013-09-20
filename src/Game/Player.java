@@ -53,14 +53,7 @@ public class Player
 	}
 	public boolean inMouse()
 	{
-		float absx = (Keyboard.getMouseX() + 8) -(xpos + size/2);
-		float absy = (Keyboard.getMouseY() + 8) -(ypos + size/2);
-		float abs = absx * absx + absy * absy;
-		if(abs <= size/2 * size/2)
-		{
-			return true;
-		}
-		return false;
+		return Collision.circleToCircle(Keyboard.getMouseX() + 8, Keyboard.getMouseY() + 8, 0, xpos + size/2, ypos + size/2, size/2);
 	}
 	public void update(float tslf, boolean playermovex, boolean playermovey)
 	{

@@ -45,14 +45,14 @@ public class Player extends MovingObject
 	}
 	public double getRotation()
 	{
-		int absx = (int) (Keyboard.getMouseX() + 8 - (xpos + size/2));
-		int absy = (int) (Keyboard.getMouseY() + 8 - (ypos + size/2));
+		int absx = (int) (Keyboard.getMouseX() - (xpos + size/2));
+		int absy = (int) (Keyboard.getMouseY() - (ypos + size/2));
 		return Math.atan2(absy, absx);
 		
 	}
 	public boolean inMouse()
 	{
-		return Collision.circleToCircle(Keyboard.getMouseX() + 8, Keyboard.getMouseY() + 8, 0, xpos + size/2, ypos + size/2, size/2);
+		return Collision.circleToCircle(Keyboard.getMouseX(), Keyboard.getMouseY(), 0, xpos + size/2, ypos + size/2, size/2);
 	}
 	public void update(float tslf, boolean playermovex, boolean playermovey)
 	{

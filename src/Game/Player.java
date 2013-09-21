@@ -11,8 +11,10 @@ public class Player extends MovingObject
 	private float oldxpos;
 	private float oldypos;
 	private double degrees = 0;
+	private float tsls;
 	private BufferedImage look;
 	private final int PLAYERSPEED = 200;
+	private final float RELOADTIME = 0.5f;
 	static int size;
 	
 	public Player(int xpos, int ypos)
@@ -54,6 +56,7 @@ public class Player extends MovingObject
 	}
 	public void update(float tslf, boolean playermovex, boolean playermovey)
 	{
+		tsls += tslf;
 		xspeed = 0;
 		yspeed = 0;
 		
@@ -94,7 +97,15 @@ public class Player extends MovingObject
 		if(ypos < 0) ypos = 0;
 		if(ypos + size > Main.height) ypos = 600 - size;
 	}
-	
+	public boolean shoot()
+	{
+		if(tsls >= RELOADTIME)
+		{
+			tsls = 0;
+			return true;
+		}
+		return false;
+	}
 	public void setToOld()
 	{
 		xpos = oldxpos;

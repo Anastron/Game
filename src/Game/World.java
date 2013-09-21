@@ -87,13 +87,15 @@ public class World
 		
 		player.update(tslf, onwallx, onwally);
 		
-		if(Keyboard.getButton() == 1)
+		if(Keyboard.getButton() == 1 && player.shoot())
 		{
-			bullets.add(new Bullet(100, 100, Bullet.MAXSPEED, 0));
+			bullets.add(new Bullet(worldx + player.getXpos() + Player.size/2, worldy + player.getYpos() + Player.size/2, 
+					(float) (Math.cos(player.getRadianDegrees()) * Bullet.MAXSPEED), 
+					(float) (Math.sin(player.getRadianDegrees()) * Bullet.MAXSPEED)));
 		}
 		for(int i = 0; i < bullets.size(); i++)
 		{
-			if(bullets.get(i).update(tslf)) bullets.remove(i);
+			if(bullets.get(i).update(tslf, tiles)) bullets.remove(i);
 		}
 		
 //		for(int x = 0; x < 2; x++)

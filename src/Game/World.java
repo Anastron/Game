@@ -91,7 +91,7 @@ public class World
 		{
 			bullets.add(new Bullet(worldx + player.getXpos() + Player.size/2, worldy + player.getYpos() + Player.size/2, 
 					(float) (Math.cos(player.getRadianDegrees()) * Bullet.MAXSPEED), 
-					(float) (Math.sin(player.getRadianDegrees()) * Bullet.MAXSPEED)));
+					(float) (Math.sin(player.getRadianDegrees()) * Bullet.MAXSPEED) ));
 		}
 		for(int i = 0; i < bullets.size(); i++)
 		{
@@ -158,7 +158,7 @@ public class World
 		}
 		for(int i = 0; i < bullets.size(); i++)
 		{
-			bullets.get(i).draw(g, (int) worldx, (int) worldy);
+			bullets.get(i).draw(g, (int) -worldx, (int) -worldy);
 		}	
 		player.draw(g);
 	}

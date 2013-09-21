@@ -12,7 +12,7 @@ public class Player extends MovingObject
 	private float oldypos;
 	private double degrees = 0;
 	private float tsls;
-	private BufferedImage look;
+	//private BufferedImage look;
 	private final int PLAYERSPEED = 200;
 	private final float RELOADTIME = 0.5f;
 	static int size;

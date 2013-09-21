@@ -89,7 +89,7 @@ public class Keyboard implements KeyListener, MouseMotionListener, MouseListener
 		
 	}
 	@Override
-	public void mouseReleased(MouseEvent arg0) 
+	public void mouseReleased(MouseEvent e) 
 	{
 		button = -1;
 		

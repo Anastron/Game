@@ -17,7 +17,7 @@ public class Bullet extends MovingObject
 		ypos += yspeed * tslf;
 		
 		int tilexpos = (int) ((xpos + look.getWidth() / 2) / Texture.tilesize);
-		int tileypos = (int) ((xpos + look.getHeight() / 2) / Texture.tilesize);
+		int tileypos = (int) ((ypos + look.getHeight() / 2) / Texture.tilesize);
 		if(tiles[tilexpos][tileypos].getLookID() == 3) return true;
 		
 		if(xpos < 0) return true;

@@ -23,7 +23,7 @@ public class Tile
 	
 	public void draw(Graphics g, int worldx, int worldy)
 	{
-		g.drawImage(look, x * Texture.tilesize + worldx, y *Texture.tilesize + worldy, null);
+		g.drawImage(look, x * Texture.tilesize + worldx + Frame.transx, y *Texture.tilesize + worldy + Frame.transy, null);
 	}
 	public int getLookID()
 	{

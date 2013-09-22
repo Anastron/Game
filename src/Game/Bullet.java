@@ -28,6 +28,6 @@ public class Bullet extends MovingObject
 	}
 	public void draw(Graphics g, int worldx, int worldy)
 	{
-		g.drawImage(look, (int) xpos + worldx, (int) ypos + worldy, null);
+		g.drawImage(look, (int) xpos + worldx + Frame.transx, (int) ypos + worldy +Frame.transy, null);
 	}
 }

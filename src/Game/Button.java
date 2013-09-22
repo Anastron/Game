@@ -28,9 +28,10 @@ public class Button
 	{
 		g.setFont(font);
 		fm = g.getFontMetrics();
-		g.drawImage(look[show], x, y, null);
+		g.drawImage(look[show], x +Frame.transx, y + Frame.transy, null);
 		g.setColor(Color.BLACK);
-		g.drawString(name, x + look[show].getWidth() / 2 - fm.stringWidth(name) / 2, y + look[show].getHeight() / 2 + font.getSize() / 2);
+		g.drawString(name, x + look[show].getWidth() / 2 - fm.stringWidth(name) / 2 + Frame.transx,
+				y + look[show].getHeight() / 2 + font.getSize() / 2 + Frame.transy);
 	}
 	public boolean update()
 	{
@@ -40,8 +41,8 @@ public class Button
 			return true;
 		}
 		show = 0;
-		int mx = Keyboard.getMouseX();
-		int my = Keyboard.getMouseY();
+		int mx = Keyboard.getMouseX() - Frame.transx;
+		int my = Keyboard.getMouseY() - Frame.transy;
 		
 		if(Collision.recToRect(mx, my, 0, 0, x, y, look[show].getWidth(), look[show].getHeight()))
 		{

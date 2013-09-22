@@ -1,6 +1,7 @@
 package Game;
 
 import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -24,6 +25,8 @@ public class Frame extends JFrame
 	private Menu menu;
 	private Soundplayer sound;
 	static int gamestate;
+	static int transx;
+	static int transy;
 	
 	public Frame()
 	{
@@ -45,10 +48,16 @@ public class Frame extends JFrame
 		sound.loop();
 		sound.setVolume(-10);
 	}
-	public void makstrat()
+	public void makscreen()
 	{
 		createBufferStrategy(2);
 		strat = getBufferStrategy();
+		
+		Insets i = getInsets();
+		transx = i.left;
+		transy = i.top;
+		setSize(Main.width + transx + i.right, Main.height + transy + i.bottom);
+		setLocationRelativeTo(null);
 	}
 	
 	public void repaint()

@@ -11,10 +11,10 @@ public class Main
 		frame.setDefaultCloseOperation(3);	//3 = Exit_ON_CLOSE
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
-		frame.setUndecorated(true);
+	//	frame.setUndecorated(true);
 		frame.setVisible(true);
 		
-		frame.makstrat();
+		frame.makscreen();
 		
 		long lastFrame = System.currentTimeMillis();
 		

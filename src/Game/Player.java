@@ -35,7 +35,7 @@ public class Player extends MovingObject
 	
 	public void draw(Graphics g)
 	{
-		g.drawImage(rotate(degrees + 90), (int) xpos, (int) ypos, null);
+		g.drawImage(rotate(degrees + 90), (int) xpos + Frame.transx, (int) ypos + Frame.transy, null);
 	}
 	public BufferedImage rotate(double degreese)
 	{
@@ -49,8 +49,8 @@ public class Player extends MovingObject
 	}
 	public double getRotation()
 	{
-		int absx = (int) (Keyboard.getMouseX() - (xpos + size/2));
-		int absy = (int) (Keyboard.getMouseY() - (ypos + size/2));
+		int absx = (int) (Keyboard.getMouseX() - Frame.transx - (xpos + size/2));
+		int absy = (int) (Keyboard.getMouseY() - Frame.transy - (ypos + size/2));
 		return Math.atan2(absy, absx);
 		
 	}

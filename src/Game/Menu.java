@@ -35,8 +35,9 @@ public class Menu
 	
 	public void draw(Graphics g)
 	{
-		g.drawImage(background, 0, 0, Main.width, Main.height, (int) -x, 0, (int) -x + Main.width, Main.height, null);
-		g.drawImage(title, Main.width / 2 - title.getWidth() / 2, 10, null);
+		g.drawImage(background, Frame.transx, Frame.transy, Main.width + Frame.transx, Main.height + Frame.transy,
+				(int) -x, 0, (int) -x + Main.width, Main.height, null);
+		g.drawImage(title, Main.width / 2 - title.getWidth() / 2 + Frame.transx, 10 + Frame.transy, null);
 		for(int i = 0; i < buttons.length; i++)
 		{
 			buttons[i].draw(g);

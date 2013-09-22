@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 public class Menu 
 {
+	private Soundplayer sound;
 	private BufferedImage background;
 	private BufferedImage title;
 	private Button[] buttons;
@@ -28,6 +29,8 @@ public class Menu
 		title = Texture.title;
 		
 		xspeed = 50;
+		
+		sound = new Soundplayer("sfx/select.wav");
 	}
 	
 	public void draw(Graphics g)
@@ -55,6 +58,8 @@ public class Menu
 		{
 			if(buttons[i].update())
 			{
+				sound.play();
+				sound.setVolume(6);
 				if(i == 0) Frame.gamestate = 1;
 				else if(i == 1);
 				else if(i == 2) System.exit(0);

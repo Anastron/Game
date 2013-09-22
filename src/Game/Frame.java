@@ -22,6 +22,7 @@ public class Frame extends JFrame
 	private BufferedImage cursor;
 	private World world;
 	private Menu menu;
+	private Soundplayer sound;
 	static int gamestate;
 	
 	public Frame()
@@ -39,6 +40,10 @@ public class Frame extends JFrame
 		
 		world = new World();
 		menu = new Menu();
+		
+		sound = new Soundplayer("sfx/background.wav");
+		sound.loop();
+		sound.setVolume(-10);
 	}
 	public void makstrat()
 	{

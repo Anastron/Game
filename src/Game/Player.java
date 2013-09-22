@@ -8,13 +8,14 @@ import java.awt.image.BufferedImage;
 
 public class Player extends MovingObject
 {
+	private Soundplayer sound;
 	private float oldxpos;
 	private float oldypos;
 	private double degrees = 0;
 	private float tsls;
 	//private BufferedImage look;
-	private final int PLAYERSPEED = 200;
-	private final float RELOADTIME = 0.5f;
+	private final int PLAYERSPEED = 100;
+	private final float RELOADTIME = 0.9f;
 	static int size;
 	
 	public Player(int xpos, int ypos)
@@ -25,6 +26,9 @@ public class Player extends MovingObject
 		
 		look = Imageloader.loadImage("Spieler");
 		size = look.getHeight();
+		
+		sound = new Soundplayer("sfx/shoot.wav");
+		sound.setVolume(-10);
 	}
 	
 
@@ -101,6 +105,7 @@ public class Player extends MovingObject
 	{
 		if(tsls >= RELOADTIME)
 		{
+			sound.play();
 			tsls = 0;
 			return true;
 		}

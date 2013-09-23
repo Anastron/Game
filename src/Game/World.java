@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class World 
 {
@@ -14,6 +15,10 @@ public class World
 	private Player player;
 	private Tile[][] tiles;
 	private LinkedList<Bullet> bullets;
+	private LinkedList<Enemy> enemies;
+	private float tsles;
+	private float SPAWNTIME = (float) 4;
+	private Random random;
 	static int level = 0;
 	static int width;
 	static int height;
@@ -24,6 +29,10 @@ public class World
 		loadNextLevel();
 		
 		bullets = new LinkedList<Bullet>();
+		enemies = new LinkedList<Enemy>();
+		enemies.add(new Enemy(100, 100, 10, 0));
+		
+		random = new Random();
 	}
 	public void loadNextLevel()
 	{
@@ -48,6 +57,13 @@ public class World
 	}
 	public void update(float tslf)
 	{
+		tsles += tslf;
+		if(tsles >= SPAWNTIME)
+		{
+			enemies.add(new Enemy(random.nextFloat() * width * Texture.tilesize,
+					random.nextFloat() * height * Texture.tilesize, 0, 0));
+			tsles = 0;
+		}
 		oldworldx = worldx;
 		oldworldy = worldy;
 		if(player.getXpos() == Main.width/2 - 15)worldx += player.getXSpeed() * tslf;
@@ -96,6 +112,14 @@ public class World
 		for(int i = 0; i < bullets.size(); i++)
 		{
 			if(bullets.get(i).update(tslf, tiles)) bullets.remove(i);
+		}
+		
+		for (int i = 0; i < enemies.size(); i++) 
+		{
+			if(enemies.get(i).update(tslf, player.getXpos() + worldx, player.getYpos() + worldy, bullets))
+			{
+				enemies.remove(i);
+			}
 		}
 		
 //		for(int x = 0; x < 2; x++)
@@ -153,13 +177,17 @@ public class World
 		{
 			for (int y = miny; y < maxy; y++) 
 			{
-				tiles[x][y].draw(g, (int) worldx * -1, (int) worldy * -1);
+				tiles[x][y].draw(g, (int) -worldx, (int) -worldy);
 			}
 		}
 		for(int i = 0; i < bullets.size(); i++)
 		{
 			bullets.get(i).draw(g, (int) -worldx, (int) -worldy);
-		}	
+		}
+		for (int i = 0; i < enemies.size(); i++) 
+		{
+			enemies.get(i).draw(g, (int) -worldx, (int) -worldy);
+		}
 		player.draw(g);
 	}
 }

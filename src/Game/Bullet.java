@@ -30,4 +30,13 @@ public class Bullet extends MovingObject
 	{
 		g.drawImage(look, (int) xpos + worldx + Frame.transx, (int) ypos + worldy +Frame.transy, null);
 	}
+	
+	public float getX()
+	{
+		return xpos;
+	}
+	public float getY()
+	{
+		return ypos;
+	}
 }

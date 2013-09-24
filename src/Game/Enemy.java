@@ -26,10 +26,14 @@ public class Enemy extends MovingObject
 	{
 		float absx = targetx - xpos;
 		float absy = targety - ypos;
+		float abs = (float) Math.sqrt(absx * absx + absy * absy);
 		rotation = Math.atan2(absy, absx);
 		
-		xspeed = (float) (Math.cos(rotation) * SPEED);
-		yspeed = (float) (Math.sin(rotation) * SPEED);
+		absx /= abs;
+		absy /= abs;
+		
+		xspeed = absx * SPEED;
+		yspeed = absy * SPEED;
 		
 		xpos += xspeed * tslf;
 		ypos += yspeed * tslf;

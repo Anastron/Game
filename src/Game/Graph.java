@@ -70,13 +70,14 @@ public class Graph
 	public LinkedList<Node> astar(int startnode, int endnode)
 	{
 		int id, newDis;
+		int maxValue = (int) (Integer.MAX_VALUE - Math.sqrt(World.width * World.width + World.height * World.height));
 		for(int i = 0; i < nodes.size(); i++)
 		{
 			int absx = nodes.get(i).getX() - nodes.get(endnode).getX();
 			int absy = nodes.get(i).getY() - nodes.get(endnode).getY();
 			nodes.get(i).setHeuristic((int) Math.sqrt(absx * absx + absy * absy));
 			nodes.get(i).setVisited(false);
-			nodes.get(i).setRange(Integer.MAX_VALUE);
+			nodes.get(i).setRange(maxValue);
 		}
 		
 		nodes.get(startnode).setRange(0);

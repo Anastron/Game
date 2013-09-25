@@ -11,6 +11,7 @@ public class Enemy extends MovingObject
 	public double rotation;
 	static int size;
 	private final int SPEED = 75;
+	private LinkedList<Node> path;
 	public Enemy(float xpos, float ypos, float xspeed, float yspeed)
 	{
 		super(xpos, ypos, xspeed, yspeed);
@@ -22,21 +23,28 @@ public class Enemy extends MovingObject
 	{
 		g.drawImage(rotate(), (int) xpos + worldx + Frame.transx, (int) ypos + worldy + Frame.transy, null);
 	}
-	public boolean update(float tslf, float targetx, float targety, LinkedList<Bullet> bullets)
+	public boolean update(float tslf, LinkedList<Bullet> bullets)
 	{
-		float absx = targetx - xpos;
-		float absy = targety - ypos;
-		float abs = (float) Math.sqrt(absx * absx + absy * absy);
-		rotation = Math.atan2(absy, absx);
-		
-		absx /= abs;
-		absy /= abs;
-		
-		xspeed = absx * SPEED;
-		yspeed = absy * SPEED;
+		if(path.size() > 0)
+		{
+			float absx = path.get(path.size() - 1).getX() * Texture.tilesize + Texture.tilesize / 2 - (xpos + look.getWidth() / 2);
+			float absy = path.get(path.size() - 1).getY() * Texture.tilesize + Texture.tilesize / 2 - (ypos + look.getHeight() / 2);
+			
+			rotation = Math.atan2(absy, absx);
+			
+			xspeed = (float) (Math.cos(rotation) * SPEED);
+			yspeed = (float) (Math.sin(rotation) * SPEED);
+		} else
+		{
+			xspeed = 0;
+			yspeed = 0;
+		}
 		
 		xpos += xspeed * tslf;
 		ypos += yspeed * tslf;
+		
+		if(path.size() > 0 && path.get(path.size() -1).getX() == getTilePosX() && path.get(path.size() -1).getY() == getTilePosY())
+			path.remove(path.size() - 1);
 		
 		for(int i = 0; i < bullets.size(); i++)
 		{
@@ -58,5 +66,16 @@ public class Enemy extends MovingObject
 		return rotatedImage;
 		
 	}
-	
+	public void setPath(LinkedList<Node> path)
+	{
+		this.path = path;
+	}
+	public int getTilePosX()
+	{
+		return (int) (xpos + look.getWidth() / 2) / Texture.tilesize;
+	}
+	public int getTilePosY()
+	{
+		return (int) (ypos + look.getHeight() / 2) / Texture.tilesize;
+	}
 }

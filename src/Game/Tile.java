@@ -29,4 +29,8 @@ public class Tile
 	{
 		return lookid;
 	}
+	public boolean isObstacle()
+	{
+		return lookid == 1 || lookid == 3;
+	}
 }

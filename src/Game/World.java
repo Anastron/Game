@@ -19,18 +19,20 @@ public class World
 	private float tsles;
 	private float SPAWNTIME = (float) 4;
 	private Random random;
+	private Graph graph;
 	static int level = 0;
 	static int width;
 	static int height;
 	public World()
 	{
 		player = new Player(Main.width/2 - 150, Main.height/2 - 150);
+		graph = new Graph();
 		
 		loadNextLevel();
 		
 		bullets = new LinkedList<Bullet>();
 		enemies = new LinkedList<Enemy>();
-		enemies.add(new Enemy(100, 100, 10, 0));
+//		enemies.add(new Enemy(100, 100, 10, 0));
 		
 		random = new Random();
 	}
@@ -52,16 +54,37 @@ public class World
 				if(c.getRed() == 0 && c.getGreen() == 0 && c.getBlue() == 255) tiles[x][y] = new Tile(x, y, 1);
 				if(c.getRed() == 255 && c.getGreen() == 255 && c.getBlue() == 0) tiles[x][y] = new Tile(x, y, 2);
 				if(c.getRed() == 0 && c.getGreen() == 0 && c.getBlue() == 0) tiles[x][y] = new Tile(x, y, 3);
+				
+				if(!tiles[x][y].isObstacle())
+				{
+					Node n = new Node();
+					n.setX(x);
+					n.setY(y);
+					graph.addNode(n);
+				}
 			}
 		}
+		graph.createMatrix();
+	}
+	public void spawnEnemy()
+	{
+		int x = random.nextInt(width);
+		int y = random.nextInt(height);
+		if(tiles[x][y].isObstacle())
+		{
+			spawnEnemy();
+			return;
+		}
+		Enemy e = new Enemy(x * Texture.tilesize,	y * Texture.tilesize, 0, 0);
+		e.setPath(graph.astar(graph.getNodeID(x, y), graph.getNodeID(getPlayerTilePosX(), getPlayerTilePosY())));
+		enemies.add(e);
 	}
 	public void update(float tslf)
 	{
 		tsles += tslf;
-		if(tsles >= SPAWNTIME)
+		if(tsles >= SPAWNTIME && enemies.size() < 3)
 		{
-			enemies.add(new Enemy(random.nextFloat() * width * Texture.tilesize,
-					random.nextFloat() * height * Texture.tilesize, 0, 0));
+			spawnEnemy();
 			tsles = 0;
 		}
 		oldworldx = worldx;
@@ -116,7 +139,7 @@ public class World
 		
 		for (int i = 0; i < enemies.size(); i++) 
 		{
-			if(enemies.get(i).update(tslf, player.getXpos() + worldx, player.getYpos() + worldy, bullets))
+			if(enemies.get(i).update(tslf, bullets))
 			{
 				enemies.remove(i);
 			}
@@ -147,7 +170,7 @@ public class World
 			{
 				int playerposx = (int) ((worldx + player.getXpos() + x * Player.size) / Texture.tilesize);
 				int playerposy = (int) ((worldy + player.getYpos() + y * Player.size) / Texture.tilesize);
-				if(tiles[playerposx][playerposy].getLookID() == 3 && Collision.circleToRect(player.getXpos() + worldx + Player.size/2, player.getYpos() + worldy + Player.size/2, Player.size/2, playerposx * Texture.tilesize, playerposy * Texture.tilesize, Texture.tilesize, Texture.tilesize))
+				if(tiles[playerposx][playerposy].isObstacle() && Collision.circleToRect(player.getXpos() + worldx + Player.size/2, player.getYpos() + worldy + Player.size/2, Player.size/2, playerposx * Texture.tilesize, playerposy * Texture.tilesize, Texture.tilesize, Texture.tilesize))
 				{
 					player.setToOld();
 					setToOld();
@@ -189,5 +212,13 @@ public class World
 			enemies.get(i).draw(g, (int) -worldx, (int) -worldy);
 		}
 		player.draw(g);
+	}
+	public int getPlayerTilePosX()
+	{
+		return (int) ((player.getXpos() + Player.size/2 + worldx) / Texture.tilesize);
+	}
+	public int getPlayerTilePosY()
+	{
+		return (int) ((player.getYpos() + Player.size/2 + worldy) / Texture.tilesize);
 	}
 }
